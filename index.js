@@ -4,8 +4,10 @@ const redis = require('redis')
 
 const PORT = process.env.PORT || 3000;
 const REDIS_PORT = process.env.PORT || 6379;
-
-const client = redis.createClient(REDIS_PORT);
+const app = express()
+const client = redis.createClient({
+  host: 'redis-server',
+  port: REDIS_PORT});
 ////////////////
 // client.on("error",function(err){
 //     console.error('error encountered',err)
@@ -17,7 +19,6 @@ const client = redis.createClient(REDIS_PORT);
 // client.get("UserName",redis.print);
 ////////////////
 // Heyhehehehehheheh
-const app = express()
 const path = require('path')
 console.log('In index.js')
 app.use(express.json());      
@@ -32,10 +33,14 @@ app.use(express.json());
       const response = await fetch(`https://api.github.com/users/${username}`);
   
       const data = await response.json();
+
+      console.log('saduiasgdiuahsd',data);
   
       const repos = data.public_repos;
   
+      if( repos >= 0){
       client.setex(username, 3600, repos);
+      }
   
       res.render('index.ejs', { username,repos });
     } catch (err) {

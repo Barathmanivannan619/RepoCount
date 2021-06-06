@@ -48,13 +48,18 @@ button {
     <center> <h1> GitHub Repos </h1> </center>   
     <form action="/" method="GET">  
         <div class="container">   
-            <label><strong>USERNAME</strong> : <%=username%> </label>   
-            <br>
             <% if (repos > 0) { %>
+                <label><strong>USERNAME</strong> : <%=username%> </label>   
+                <br>
                 <label><strong>Repos</strong> : <%=repos%> </label>
-              <% }else{ %>
+              <% }else if (repos == 0){ %>
+                <label><strong>USERNAME</strong> : <%=username%> </label>   
+                <br>
             <label><strong>No Repos</strong></label>
-            <% } %>
+            <% }else {%>
+                <label><%=username%><strong>: User Not Found</strong></label>   
+                <br>
+            <% }%>
             <button type="Retry">Retry</button>
         </div>   
     </form>     
